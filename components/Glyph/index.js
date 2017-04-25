@@ -37,7 +37,7 @@ export default class Glyph extends React.Component {
       toValue: 1, // fully opaque
       duration: 250 // milliseconds
     }).start()
-    tilt.setValue(1) // mapped to -30 degrees
+    tilt.setValue(4) // mapped to -30 degrees
     Animated.timing(tilt, {
       toValue: 0, // mapped to 0 degrees (no tilt)
       duration: 250, // milliseconds
@@ -45,17 +45,6 @@ export default class Glyph extends React.Component {
     }).start()
   }
 }
-/* export const Glyph = (key, style, letter) => {
-  return (
-    <Animated.View
-      key={id}
-      style={[styles.tile, style]}
-      onStartShouldSetResponder={() => clickTile(id)}
-    >
-      <Text style={styles.letter}>{letter}</Text>
-    </Animated.View>
-  )
-} */
 
 var styles = StyleSheet.create({
   tile: {
