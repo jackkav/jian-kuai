@@ -7,6 +7,7 @@ import {
   Animated,
   Easing
 } from 'react-native'
+import Glyph from '../Glyph'
 var { width, height } = require('Dimensions').get('window')
 var SIZE = 4 // four-by-four grid
 var CELL_SIZE = Math.floor(width * 0.2) // 20% of the screen width
@@ -53,36 +54,17 @@ export default class BoardView extends React.Component {
           opacity: this.state.opacities[key],
           transform: [{ perspective: CELL_SIZE * 8 }, { rotateX: tilt }]
         }
-        result.push(this.renderTile(key, style, letter))
+        result.push(
+          <Glyph
+            key={key}
+            style={style}
+            letter={letter}
+            tilt={this.state.tilt[key]}
+          />
+        )
       }
     }
     return result
-  }
-  renderTile (id, style, letter) {
-    return (
-      <Animated.View
-        key={id}
-        style={[styles.tile, style]}
-        onStartShouldSetResponder={() => this.clickTile(id)}
-      >
-        <Text style={styles.letter}>{letter}</Text>
-      </Animated.View>
-    )
-  }
-  clickTile (id) {
-    var opacity = this.state.opacities[id]
-    opacity.setValue(0.5)
-    Animated.timing(opacity, {
-      toValue: 1, // fully opaque
-      duration: 250 // milliseconds
-    }).start()
-    var tilt = this.state.tilt[id]
-    tilt.setValue(1) // mapped to -30 degrees
-    Animated.timing(tilt, {
-      toValue: 0, // mapped to 0 degrees (no tilt)
-      duration: 250, // milliseconds
-      easing: Easing.quad // quadratic easing function: (t) => t * t
-    }).start()
   }
 }
 
@@ -90,20 +72,6 @@ var styles = StyleSheet.create({
   container: {
     width: CELL_SIZE * SIZE,
     height: CELL_SIZE * SIZE,
-    backgroundColor: 'transparent'
-  },
-  tile: {
-    position: 'absolute',
-    width: TILE_SIZE,
-    height: TILE_SIZE,
-    borderRadius: BORDER_RADIUS,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#BEE1D2'
-  },
-  letter: {
-    color: '#333',
-    fontSize: LETTER_SIZE,
     backgroundColor: 'transparent'
   }
 })
