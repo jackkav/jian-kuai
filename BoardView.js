@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 var { width, height } = require('Dimensions').get('window')
 var SIZE = 4 // four-by-four grid
 var CELL_SIZE = Math.floor(width * 0.2) // 20% of the screen width
@@ -27,14 +27,19 @@ export default class BoardView extends React.Component {
           left: col * CELL_SIZE + CELL_PADDING,
           top: row * CELL_SIZE + CELL_PADDING
         }
-        result.push(
-          <View key={key} style={[styles.tile, position]}>
-            <Text style={styles.letter}>{letter}</Text>
-          </View>
-        )
+        result.push(this.renderTile(key, position, letter))
       }
     }
     return result
+  }
+  renderTile (id, position, letter) {
+    return (
+      <TouchableOpacity key={id} onPress={() => console.log(id)}>
+        <View style={[styles.tile, position]}>
+          <Text style={styles.letter}>{letter}</Text>
+        </View>
+      </TouchableOpacity>
+    )
   }
 }
 
