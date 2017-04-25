@@ -16,9 +16,6 @@ var TILE_SIZE = CELL_SIZE - CELL_PADDING * 2
 var LETTER_SIZE = Math.floor(TILE_SIZE * 0.75)
 
 export default class BoardView extends React.Component {
-  // static state = {
-  //   opacities: new Array(SIZE * SIZE)
-  // }
   constructor () {
     super()
     var opacities = new Array(SIZE * SIZE)
@@ -53,6 +50,7 @@ export default class BoardView extends React.Component {
         var style = {
           left: col * CELL_SIZE + CELL_PADDING,
           top: row * CELL_SIZE + CELL_PADDING,
+          opacity: this.state.opacities[key],
           transform: [{ perspective: CELL_SIZE * 8 }, { rotateX: tilt }]
         }
         result.push(this.renderTile(key, style, letter))
@@ -72,6 +70,12 @@ export default class BoardView extends React.Component {
     )
   }
   clickTile (id) {
+    var opacity = this.state.opacities[id]
+    opacity.setValue(0.5)
+    Animated.timing(opacity, {
+      toValue: 1, // fully opaque
+      duration: 250 // milliseconds
+    }).start()
     var tilt = this.state.tilt[id]
     tilt.setValue(1) // mapped to -30 degrees
     Animated.timing(tilt, {
