@@ -25,7 +25,11 @@ export default class BoardView extends React.Component {
     for (var i = 0; i < opacities.length; i++) {
       opacities[i] = new Animated.Value(1)
     }
-    this.state = { opacities }
+    var tilt = new Array(SIZE * SIZE)
+    for (var i = 0; i < tilt.length; i++) {
+      tilt[i] = new Animated.Value(0)
+    }
+    this.state = { opacities, tilt }
   }
 
   render () {
@@ -42,10 +46,14 @@ export default class BoardView extends React.Component {
       for (var col = 0; col < SIZE; col++) {
         var key = row * SIZE + col
         var letter = String.fromCharCode(65 + key)
+        var tilt = this.state.tilt[key].interpolate({
+          inputRange: [0, 1],
+          outputRange: ['0deg', '-30deg']
+        })
         var style = {
           left: col * CELL_SIZE + CELL_PADDING,
           top: row * CELL_SIZE + CELL_PADDING,
-          opacity: this.state.opacities[key]
+          transform: [{ perspective: CELL_SIZE * 8 }, { rotateX: tilt }]
         }
         result.push(this.renderTile(key, style, letter))
       }
@@ -64,11 +72,12 @@ export default class BoardView extends React.Component {
     )
   }
   clickTile (id) {
-    var opacity = this.state.opacities[id]
-    opacity.setValue(0.5) // half transparent, half opaque
-    Animated.timing(opacity, {
-      toValue: 1, // fully opaque
-      duration: 250 // milliseconds
+    var tilt = this.state.tilt[id]
+    tilt.setValue(1) // mapped to -30 degrees
+    Animated.timing(tilt, {
+      toValue: 0, // mapped to 0 degrees (no tilt)
+      duration: 250, // milliseconds
+      easing: Easing.quad // quadratic easing function: (t) => t * t
     }).start()
   }
 }
