@@ -1,13 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
+import BoardView from './BoardView'
 export default class App extends React.Component {
   render () {
     return (
       <View style={styles.container}>
-        <View style={styles.tile}>
-          <Text style={styles.letter}>A</Text>
-        </View>
+        <BoardView />
       </View>
     )
   }
