@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { increment } from '../../ducks/actions'
 export const Label = props => (
   <TouchableHighlight style={styles.button} onPress={() => props.increment()}>
-    <Text style={styles.buttonText}>Load Data{props.appData.count}</Text>
+    <Text style={styles.buttonText}>{props.appData.label}</Text>
   </TouchableHighlight>
 )
 
@@ -20,8 +20,7 @@ var styles = StyleSheet.create({
     height: 60,
     margin: 10,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#0b7eff'
+    alignItems: 'center'
   },
   buttonText: {
     color: 'white'

@@ -1,13 +1,15 @@
 import {
   FETCHING_DATA,
   FETCHING_DATA_SUCCESS,
-  FETCHING_DATA_FAILURE
+  FETCHING_DATA_FAILURE,
+  SELECT_GLYPH
 } from '../constants'
 const initialState = {
   data: [],
   dataFetched: false,
   isFetching: false,
   error: false,
+  label: '',
   count: 0
 }
 
@@ -30,6 +32,11 @@ export default function dataReducer (state = initialState, action) {
         ...state,
         isFetching: false,
         error: true
+      }
+    case SELECT_GLYPH:
+      return {
+        ...state,
+        label: state.label + action.glyph
       }
     case 'INCREMENT':
       return {
