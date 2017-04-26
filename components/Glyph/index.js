@@ -34,10 +34,13 @@ export default class Glyph extends React.Component {
                   ],
                 })},    
                 ]}]}
-        onStartShouldSetResponder={() =>
-          this.clickTile(
-            this.anim
-          )}
+        onStartShouldSetResponder={() =>{
+            this.clickTile(
+              this.anim
+            )
+            return true
+            }
+          }
       >
         <Text style={styles.letter}>{this.props.letter}</Text>
       </Animated.View>
