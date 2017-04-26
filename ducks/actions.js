@@ -1,4 +1,9 @@
-import { FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, SELECT_GLYPH } from './constants'
+import {
+  FETCHING_DATA,
+  FETCHING_DATA_SUCCESS,
+  FETCHING_DATA_FAILURE,
+  SELECT_GLYPH
+} from './constants'
 
 export function fetchData () {
   return {
@@ -24,5 +29,11 @@ export function selectGlyph (glyph) {
   return {
     type: SELECT_GLYPH,
     glyph
+  }
+}
+
+export function increment () {
+  return {
+    type: 'INCREMENT'
   }
 }
