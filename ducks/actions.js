@@ -31,9 +31,3 @@ export function selectGlyph (glyph) {
     glyph
   }
 }
-
-export function increment () {
-  return {
-    type: 'INCREMENT'
-  }
-}

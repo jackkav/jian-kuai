@@ -38,16 +38,6 @@ export default function dataReducer (state = initialState, action) {
         ...state,
         label: state.label + action.glyph
       }
-    case 'INCREMENT':
-      return {
-        ...state,
-        count: state.count + 1
-      }
-    case 'DECREMENT':
-      return {
-        ...state,
-        count: state.count - 1
-      }
     default:
       return state
   }

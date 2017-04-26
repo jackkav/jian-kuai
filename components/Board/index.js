@@ -15,7 +15,7 @@ import Glyph from '../Glyph'
 export default class BoardView extends React.Component {
   constructor () {
     super()
-    var chinese = shuffle('的是不我一有大在人了中到資要以可這個你')
+    var chinese = shuffle('大小中饭面肉牛鸡猪鞋上下左右前后手足')
     this.state = { chinese }
   }
 

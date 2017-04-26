@@ -8,7 +8,6 @@ import {
   Easing
 } from 'react-native'
 import { connect } from 'react-redux'
-import { increment } from '../../ducks/actions'
 export const Label = props => (
   <TouchableHighlight style={styles.button} onPress={() => props.increment()}>
     <Text style={styles.buttonText}>{props.appData.label}</Text>
@@ -23,7 +22,8 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   buttonText: {
-    color: 'white'
+    color: 'white',
+    fontSize: 40
   }
 })
 
@@ -33,10 +33,4 @@ function mapStateToProps (state) {
   }
 }
 
-function mapDispatchToProps (dispatch) {
-  return {
-    increment: () => dispatch(increment())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Label)
+export default connect(mapStateToProps)(Label)
