@@ -9,35 +9,48 @@ import {
 } from 'react-native'
 import {LETTER_SIZE,BORDER_RADIUS,TILE_SIZE} from '../../constants'
 
- const clickTile = (id, opacity, tilt) => {
-    opacity.setValue(0.5)
-    Animated.timing(opacity, {
-      toValue: 1, // fully opaque
-      duration: 250 // milliseconds
-    }).start()
-    tilt.setValue(4) // mapped to -30 degrees
-    Animated.timing(tilt, {
-      toValue: 0, // mapped to 0 degrees (no tilt)
-      duration: 250, // milliseconds
-      easing: Easing.quad // quadratic easing function: (t) => t * t
-    }).start()
-  }
 
-export default Glyph = ({id,style,tilt,letter}) =>{
-return (
+export default class Glyph extends React.Component {
+  
+  render () {
+    this.anim = this.anim || new Animated.Value(0);
+    return (
       <Animated.View
-        key={id}
-        style={[styles.tile, style]}
+        key={this.props.id}
+        style={[styles.tile, this.props.style,{
+              transform: [   // Array order matters
+                {scale: this.anim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 4],
+                })},
+                {translateX: this.anim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 500],
+                })},
+                {rotate: this.anim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [
+                    '0deg', '360deg' // 'deg' or 'rad'
+                  ],
+                })},    
+                ]}]}
         onStartShouldSetResponder={() =>
-          clickTile(
-            id,
-            style.opacity,
-            tilt
+          this.clickTile(
+            this.anim
           )}
       >
-        <Text style={styles.letter}>{letter}</Text>
+        <Text style={styles.letter}>{this.props.letter}</Text>
       </Animated.View>
     )
+  }
+  clickTile (anim) {
+    Animated.spring(this.anim, {
+              toValue: 0,   // Returns to the start
+              velocity: 3,  // Velocity makes it move
+              tension: -10, // Slow
+              friction: 1,  // Oscillate a lot
+            }).start()
+  }
 }
 
 var styles = StyleSheet.create({
