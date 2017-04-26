@@ -8,14 +8,8 @@ import {
   Easing
 } from 'react-native'
 import shuffle from 'lodash.shuffle'
+import {SIZE,CELL_SIZE,CELL_PADDING} from '../../constants'
 import Glyph from '../Glyph'
-var { width, height } = require('Dimensions').get('window')
-var SIZE = 4 // four-by-four grid
-var CELL_SIZE = Math.floor(width * 0.2) // 20% of the screen width
-var CELL_PADDING = Math.floor(CELL_SIZE * 0.05) // 5% of the cell size
-var BORDER_RADIUS = CELL_PADDING * 2
-var TILE_SIZE = CELL_SIZE - CELL_PADDING * 2
-var LETTER_SIZE = Math.floor(TILE_SIZE * 0.75)
 
 export default class BoardView extends React.Component {
   constructor () {
