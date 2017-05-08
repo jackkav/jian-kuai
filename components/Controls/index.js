@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { resetGame } from '../../ducks/actions'
 export const Controls = props => (
   <TouchableHighlight style={styles.button} onPress={() => props.resetGame()}>
-    <Text style={styles.buttonText}>Reset</Text>
+    <Text style={styles.buttonText}>New Game</Text>
   </TouchableHighlight>
 )
 

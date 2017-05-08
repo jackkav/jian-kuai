@@ -4,7 +4,7 @@ import {
   TOUCH_CORRECT_GLYPH,
   TOUCH_INCORRECT_GLYPH,
   NEXT_CLUE,
-  RESET_GAME
+  NEW_GAME
 } from './constants'
 
 export function selectGlyph (glyph) {
@@ -16,7 +16,7 @@ export function selectGlyph (glyph) {
 
 export function resetGame () {
   return {
-    type: RESET_GAME
+    type: NEW_GAME
   }
 }
 export function correct () {

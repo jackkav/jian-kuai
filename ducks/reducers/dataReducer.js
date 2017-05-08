@@ -6,34 +6,48 @@ import {
   COMPLETE_BOARD,
   TOUCH_CORRECT_GLYPH,
   NEXT_CLUE,
-  TOUCH_INCORRECT_GLYPH,
-  RESET_GAME
+  TOUCH_INCORRECT_GLYPH
 } from '../constants'
 
 import shuffle from 'lodash.shuffle'
 import dict from '../../challenges'
-const chineseUnderTest = '大小中饭面肉牛鸡猪鞋上下左右前后'
+const allchinese = '大小中饭面肉牛鸡猪鞋上下左右前后手足男女鱼来去'
+const grid = allchinese.substr(0, 16)
+const initialChallenges = grid.split('').map(pinyin => {
+  return { pinyin, full: dict[pinyin] }
+})
+const initialClue =
+  initialChallenges[Math.floor(Math.random() * initialChallenges.length)]
+
 const initialState = {
   error: false,
   label: '',
-  clue: 'small 小',
-  findMe: '小',
-  challenges: chineseUnderTest.split('').map(pinyin => {
-    return { pinyin, full: dict[pinyin] }
-  }),
+  clue: initialClue.full,
+  findMe: initialClue.pinyin,
+  challenges: initialChallenges,
   correctAnswer: false,
   correctAnswers: '',
   score: 0,
-  chinese: shuffle(chineseUnderTest)
+  chinese: shuffle(grid)
 }
 
 export default function dataReducer (state = initialState, action) {
   switch (action.type) {
-    case RESET_GAME:
+    case NEW_GAME:
+      const newGrid = allchinese.substr(0, 16)
+      const newChallenges = newGrid.split('').map(pinyin => {
+        return { pinyin, full: dict[pinyin] }
+      })
+      const randomClue =
+        newChallenges[Math.floor(Math.random() * newChallenges.length)]
+
       return {
         ...state,
         score: 0,
-        chinese: shuffle('大小中饭面肉牛鸡猪鞋上下左右前后')
+        chinese: shuffle(allchinese),
+        challenges: newChallenges,
+        findMe: randomClue.pinyin,
+        clue: randomClue.full
       }
     case TOUCH_CORRECT_GLYPH:
       return {
