@@ -12,18 +12,19 @@ import {
 
 import shuffle from 'lodash.shuffle'
 import dict from '../../challenges'
+const chineseUnderTest = '大小中饭面肉牛鸡猪鞋上下左右前后'
 const initialState = {
   error: false,
   label: '',
   clue: 'small 小',
   findMe: '小',
-  challenges: Object.keys(dict).map(pinyin => {
+  challenges: chineseUnderTest.split('').map(pinyin => {
     return { pinyin, full: dict[pinyin] }
   }),
   correctAnswer: false,
   correctAnswers: '',
   score: 0,
-  chinese: shuffle('大小中饭面肉牛鸡猪鞋上下左右前后')
+  chinese: shuffle(chineseUnderTest)
 }
 
 export default function dataReducer (state = initialState, action) {

@@ -14,7 +14,7 @@ export default (challenges = {
   左: 'left 左',
   右: 'right 右',
   前: 'front 前',
-  后: 'back 后'
-  // 手: 'hand 手',
-  // 足: 'foot 足'
+  后: 'back 后',
+  手: 'hand 手',
+  足: 'foot 足'
 })
