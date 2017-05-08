@@ -16,5 +16,12 @@ export default (challenges = {
   前: 'front 前',
   后: 'back 后',
   手: 'hand 手',
-  足: 'foot 足'
+  足: 'foot 足',
+  男: 'man 男',
+  女: 'woman 女',
+  鱼: 'fish 鱼',
+  来: 'come 来',
+  去: 'go 去',
+  电: 'electric 电'
 })
+;('大小中饭面肉牛鸡猪鞋上下左右前后手足男女鱼来去')

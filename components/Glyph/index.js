@@ -57,8 +57,12 @@ export class Glyph extends React.Component {
           if (this.props.appData.findMe === this.props.letter) {
             this.props.correct()
             this.props.nextClue()
-          } else this.props.incorrect()
-          this.clickTile(this.anim)
+            this.clickCorrectTile(this.anim)
+          } else {
+            this.props.incorrect()
+            this.clickWrongTile(this.anim)
+          }
+
           return true
         }}
       >
@@ -66,10 +70,18 @@ export class Glyph extends React.Component {
       </Animated.View>
     )
   }
-  clickTile (anim) {
+  clickWrongTile (anim) {
     Animated.spring(this.anim, {
       toValue: 0, // Returns to the start
       velocity: 3, // Velocity makes it move
+      tension: -10, // Slow
+      friction: 1 // Oscillate a lot
+    }).start()
+  }
+  clickCorrectTile (anim) {
+    Animated.spring(this.anim, {
+      toValue: 0, // Returns to the start
+      velocity: 1, // Velocity makes it move
       tension: -10, // Slow
       friction: 1 // Oscillate a lot
     }).start()

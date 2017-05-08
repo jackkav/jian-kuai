@@ -11,7 +11,7 @@ import {
 
 import shuffle from 'lodash.shuffle'
 import dict from '../../challenges'
-const allchinese = '大小中饭面肉牛鸡猪鞋上下左右前后手足男女鱼来去'
+const allchinese = Object.keys(challenges).join('')
 const grid = allchinese.substr(0, 16)
 const initialChallenges = grid.split('').map(pinyin => {
   return { pinyin, full: dict[pinyin] }
