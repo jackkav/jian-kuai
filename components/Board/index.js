@@ -8,41 +8,33 @@ import {
   Easing,
   TouchableHighlight
 } from 'react-native'
+import { connect } from 'react-redux'
 import shuffle from 'lodash.shuffle'
 import { SIZE, CELL_SIZE, CELL_PADDING } from '../../constants'
 import Glyph from '../Glyph'
 
-export default class BoardView extends React.Component {
-  constructor () {
-    super()
-    var chinese = shuffle('大小中饭面肉牛鸡猪鞋上下左右前后') // 手足
-    this.state = { chinese }
-  }
+const BoardView = props => {
+  return (
+    <View style={styles.container}>
+      {renderTiles(props.appData.chinese)}
+    </View>
+  )
+}
+const renderTiles = chinese => {
+  var result = []
 
-  render () {
-    return (
-      <View style={styles.container}>
-        {this.renderTiles()}
-      </View>
-    )
-  }
-
-  renderTiles () {
-    var result = []
-
-    for (var row = 0; row < SIZE; row++) {
-      for (var col = 0; col < SIZE; col++) {
-        var key = row * SIZE + col
-        var letter = this.state.chinese[key]
-        var style = {
-          left: col * CELL_SIZE + CELL_PADDING,
-          top: row * CELL_SIZE + CELL_PADDING
-        }
-        result.push(<Glyph key={key} style={style} letter={letter} />)
+  for (var row = 0; row < SIZE; row++) {
+    for (var col = 0; col < SIZE; col++) {
+      var key = row * SIZE + col
+      var letter = chinese[key]
+      var style = {
+        left: col * CELL_SIZE + CELL_PADDING,
+        top: row * CELL_SIZE + CELL_PADDING
       }
+      result.push(<Glyph key={key} style={style} letter={letter} />)
     }
-    return result
   }
+  return result
 }
 
 var styles = StyleSheet.create({
@@ -52,3 +44,11 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent'
   }
 })
+
+function mapStateToProps (state) {
+  return {
+    appData: state.appData
+  }
+}
+
+export default connect(mapStateToProps)(BoardView)

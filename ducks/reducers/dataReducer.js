@@ -9,6 +9,8 @@ import {
   TOUCH_INCORRECT_GLYPH,
   RESET_GAME
 } from '../constants'
+
+import shuffle from 'lodash.shuffle'
 import dict from '../../challenges'
 const initialState = {
   error: false,
@@ -20,7 +22,8 @@ const initialState = {
   }),
   correctAnswer: false,
   correctAnswers: '',
-  score: 0
+  score: 0,
+  chinese: shuffle('大小中饭面肉牛鸡猪鞋上下左右前后')
 }
 
 export default function dataReducer (state = initialState, action) {
@@ -28,7 +31,8 @@ export default function dataReducer (state = initialState, action) {
     case RESET_GAME:
       return {
         ...state,
-        score: 0
+        score: 0,
+        chinese: shuffle('大小中饭面肉牛鸡猪鞋上下左右前后')
       }
     case TOUCH_CORRECT_GLYPH:
       return {
@@ -49,38 +53,6 @@ export default function dataReducer (state = initialState, action) {
         findMe: n.pinyin,
         clue: n.full
       }
-    // case NEW_GAME:
-    //   const n =
-    //     state.challenges[Math.floor(Math.random() * state.challenges.length)]
-
-    //   return {
-    //     ...state,
-    //     findMe: n.pinyin,
-    //     clue: n.full
-    //   }
-    // case RESET_LEVEL:
-    //   const items = state.challenges.filter(
-    //     x => !state.label.includes(x.pinyin)
-    //   )
-    //   const c = items[Math.floor(Math.random() * items.length)]
-    //   if (!c) return { ...state }
-    //   return {
-    //     ...state,
-    //     findMe: c.pinyin,
-    //     clue: c.full,
-    //     challenges: items
-    //   }
-    // case SELECT_GLYPH:
-    //   let b = state.correctAnswers
-    //   if (action.glyph === state.findMe) {
-    //     state.correctAnswers = true
-    //     b += action.glyph
-    //   }
-    //   return {
-    //     ...state,
-    //     label: state.label + action.glyph,
-    //     correctAnswers: b
-    //   }
     default:
       return state
   }
