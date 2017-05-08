@@ -5,11 +5,8 @@ import configureStore from './ducks/configureStore'
 import App from './components/App'
 const store = configureStore()
 
-
-export default  ReduxApp = () => (
-        <Provider store={store}>
-              <App />
-        </Provider>
-    )
-  
-
+export default (ReduxApp = () => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+))

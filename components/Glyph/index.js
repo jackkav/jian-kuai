@@ -9,7 +9,13 @@ import {
 } from 'react-native'
 import { LETTER_SIZE, BORDER_RADIUS, TILE_SIZE } from '../../constants'
 import { connect } from 'react-redux'
-import { selectGlyph } from '../../ducks/actions'
+import {
+  selectGlyph,
+  resetLevel,
+  correct,
+  incorrect,
+  nextClue
+} from '../../ducks/actions'
 
 export class Glyph extends React.Component {
   render () {
@@ -48,7 +54,10 @@ export class Glyph extends React.Component {
           }
         ]}
         onStartShouldSetResponder={() => {
-          this.props.selectGlyph(this.props.letter)
+          if (this.props.appData.findMe === this.props.letter) {
+            this.props.correct()
+            this.props.nextClue()
+          } else this.props.incorrect()
           this.clickTile(this.anim)
           return true
         }}
@@ -91,7 +100,11 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    selectGlyph: g => dispatch(selectGlyph(g))
+    selectGlyph: g => dispatch(selectGlyph(g)),
+    resetLevel: g => dispatch(resetLevel()),
+    correct: g => dispatch(correct()),
+    nextClue: g => dispatch(nextClue()),
+    incorrect: g => dispatch(incorrect())
   }
 }
 
