@@ -44,7 +44,7 @@ export default function dataReducer (state = initialState, action) {
       return {
         ...state,
         score: 0,
-        chinese: shuffle(allchinese),
+        chinese: shuffle(newGrid),
         challenges: newChallenges,
         findMe: randomClue.pinyin,
         clue: randomClue.full
