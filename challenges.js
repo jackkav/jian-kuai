@@ -24,4 +24,3 @@ export default (challenges = {
   去: 'go 去',
   电: 'electric 电'
 })
-;('大小中饭面肉牛鸡猪鞋上下左右前后手足男女鱼来去')
