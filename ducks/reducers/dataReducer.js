@@ -28,7 +28,8 @@ const initialState = {
   correctAnswer: false,
   correctAnswers: '',
   score: 0,
-  chinese: shuffle(grid)
+  chinese: shuffle(grid),
+  timeOfLastInteraction: new Date()
 }
 
 export default function dataReducer (state = initialState, action) {
@@ -40,6 +41,8 @@ export default function dataReducer (state = initialState, action) {
       })
       const randomClue =
         newChallenges[Math.floor(Math.random() * newChallenges.length)]
+        const elapsedTime = (new Date()-state.timeOfLastInteraction)/1000
+        console.log('elapsed',elapsedTime)
 
       return {
         ...state,
@@ -47,17 +50,21 @@ export default function dataReducer (state = initialState, action) {
         chinese: shuffle(newGrid),
         challenges: newChallenges,
         findMe: randomClue.pinyin,
-        clue: randomClue.full
+        clue: randomClue.full,
+        timeOfLastInteraction: new Date()
       }
     case TOUCH_CORRECT_GLYPH:
+     e = (new Date()-state.timeOfLastInteraction)/1000
       return {
         ...state,
-        score: state.score + 1
+        score: state.score + Math.max(1,Math.floor(10/Math.floor(e))),
+        timeOfLastInteraction: new Date()
       }
     case TOUCH_INCORRECT_GLYPH:
       return {
         ...state,
-        score: state.score - 1
+        score: state.score - 10,
+        timeOfLastInteraction: new Date()
       }
     case NEXT_CLUE:
       const n =
