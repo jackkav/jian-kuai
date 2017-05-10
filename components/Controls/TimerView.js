@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Text, Alert } from 'react-native'
-import FormatTime from 'minutes-seconds-milliseconds'
 import { connect } from 'react-redux'
 import { resetGame, setHighscore, restoreHighscore } from '../../ducks/actions'
 import { saveHighscore } from '../../ducks/highscore'

@@ -13,6 +13,8 @@ import {
 export class Glyph extends React.Component {
   render () {
     this.anim = this.anim || new Animated.Value(0)
+    this.coloranim = this.coloranim || new Animated.Value(0)
+    const incorrectColor = 'rgba(255, 0, 0, 1)'
     return (
       <Animated.View
         key={this.props.id}
@@ -20,6 +22,10 @@ export class Glyph extends React.Component {
           styles.tile,
           this.props.style,
           {
+            backgroundColor: this.coloranim.interpolate({
+              inputRange: [0, 300],
+              outputRange: ['#BEE1D2', incorrectColor]
+            }),
             transform: [
               // Array order matters
               {
@@ -63,18 +69,20 @@ export class Glyph extends React.Component {
       </Animated.View>
     )
   }
-  clickWrongTile (anim) {
+  clickWrongTile () {
+    Animated.sequence([
+      Animated.timing(this.coloranim, {
+        toValue: 300
+      }),
+      Animated.timing(this.coloranim, {
+        toValue: 0
+      })
+    ]).start()
+  }
+  clickCorrectTile () {
     Animated.spring(this.anim, {
       toValue: 0, // Returns to the start
       velocity: 3, // Velocity makes it move
-      tension: -10, // Slow
-      friction: 1 // Oscillate a lot
-    }).start()
-  }
-  clickCorrectTile (anim) {
-    Animated.spring(this.anim, {
-      toValue: 0, // Returns to the start
-      velocity: 1, // Velocity makes it move
       tension: -10, // Slow
       friction: 1 // Oscillate a lot
     }).start()
