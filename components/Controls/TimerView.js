@@ -20,7 +20,7 @@ export class TimerView extends Component {
     this.lastSavedTime = 0
     this.props.restoreHighscore()
     this.interval = setInterval(() => {
-      if (this.state.timeElapsed > 5000) {
+      if (this.state.timeElapsed > 30000) {
         this.setState({
           isPaused: true,
           timeElapsed: 0
