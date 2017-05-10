@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Text, AppState, Alert } from 'react-native'
+import { Text, AppState, Alert, AsyncStorage } from 'react-native'
 import FormatTime from 'minutes-seconds-milliseconds'
 import { connect } from 'react-redux'
-import { resetGame, setHighscore } from '../../ducks/actions'
+import { resetGame, setHighscore, restoreHighscore } from '../../ducks/actions'
+import { saveHighscore } from '../../ducks/highscore'
 export class TimerView extends Component {
   constructor (props) {
     super(props)
@@ -17,16 +18,18 @@ export class TimerView extends Component {
   componentDidMount () {
     this.startTime = new Date()
     this.lastSavedTime = 0
-
+    this.props.restoreHighscore()
     this.interval = setInterval(() => {
       if (this.state.timeElapsed > 5000) {
         this.setState({
           isPaused: true,
           timeElapsed: 0
         })
-        this.startTime = new Date()
-        this.lastSavedTime = 0
-        this.props.setHighscore(this.props.appData.score)
+        if (this.props.appData.score > this.props.appData.highscore) {
+          this.props.setHighscore(this.props.appData.score)
+          saveHighscore(this.props.appData.score)
+        }
+
         Alert.alert(
           'Thank you for playing',
           `Score: ${this.props.appData.score}
@@ -40,6 +43,8 @@ Highscore: ${this.props.appData.highscore}`,
                   timeElapsed: 0,
                   isPaused: false
                 })
+                this.startTime = new Date()
+                this.lastSavedTime = 0
               }
             }
           ],
@@ -95,6 +100,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     resetGame: () => dispatch(resetGame()),
+    restoreHighscore: () => dispatch(restoreHighscore()),
     setHighscore: s => dispatch(setHighscore(s))
   }
 }

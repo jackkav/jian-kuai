@@ -8,9 +8,11 @@ import {
   NEXT_CLUE,
   TOUCH_INCORRECT_GLYPH,
   END_GAME,
-  SET_HIGHSCORE
+  SET_HIGHSCORE,
+  RESTORE_HIGHSCORE_SUCCESS
 } from '../constants'
 
+import { getHighscore } from '../highscore'
 import shuffle from 'lodash.shuffle'
 import dict from '../../challenges'
 const allchinese = Object.keys(challenges).join('')
@@ -38,12 +40,15 @@ const initialState = {
 
 export default function dataReducer (state = initialState, action) {
   switch (action.type) {
+    case RESTORE_HIGHSCORE_SUCCESS:
+      return {
+        ...state,
+        highscore: +action.score
+      }
     case SET_HIGHSCORE:
       return {
         ...state,
-        highscore: action.score > state.highscore
-          ? action.score
-          : state.highscore
+        highscore: action.score
       }
     case NEW_GAME:
       const newGrid = allchinese.substr(0, 16)

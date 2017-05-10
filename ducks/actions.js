@@ -5,7 +5,9 @@ import {
   TOUCH_INCORRECT_GLYPH,
   NEXT_CLUE,
   NEW_GAME,
-  SET_HIGHSCORE
+  SET_HIGHSCORE,
+  RESTORE_HIGHSCORE,
+  RESTORE_HIGHSCORE_SUCCESS
 } from './constants'
 
 export function selectGlyph (glyph) {
@@ -22,6 +24,17 @@ export function setHighscore (score) {
   }
 }
 
+export function restoreHighscore () {
+  return {
+    type: RESTORE_HIGHSCORE
+  }
+}
+export function restoreHighscoreSuccess (score) {
+  return {
+    type: RESTORE_HIGHSCORE_SUCCESS,
+    score
+  }
+}
 export function resetGame () {
   return {
     type: NEW_GAME
