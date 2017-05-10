@@ -9,17 +9,21 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { resetGame } from '../../ducks/actions'
+import TimerView from './TimerView'
 export const Controls = props => (
-  <TouchableHighlight style={styles.button} onPress={() => props.resetGame()}>
-    <Text style={styles.buttonText}>New Game</Text>
-  </TouchableHighlight>
+  <View>
+    <TimerView />
+    <TouchableHighlight style={styles.button} onPress={() => props.resetGame()}>
+      <Text style={styles.buttonText}>New Game</Text>
+    </TouchableHighlight>
+  </View>
 )
 
 var styles = StyleSheet.create({
   button: {
     height: 60,
     margin: 10,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center'
   },
   buttonText: {
