@@ -54,7 +54,7 @@ export default function dataReducer (state = initialState, action) {
         timeOfLastInteraction: new Date()
       }
     case TOUCH_CORRECT_GLYPH:
-     e = (new Date()-state.timeOfLastInteraction)/1000
+     e = Math.max(1,new Date()-state.timeOfLastInteraction)/1000
       return {
         ...state,
         score: state.score + Math.max(1,Math.floor(10/Math.floor(e))),
