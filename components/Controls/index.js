@@ -13,9 +13,9 @@ import TimerView from './TimerView'
 export const Controls = props => (
   <View>
     <TimerView style={styles.buttonText} />
-    <TouchableHighlight style={styles.button} onPress={() => props.resetGame()}>
-      <Text style={styles.buttonText}>New Game</Text>
-    </TouchableHighlight>
+    {/* <TouchableHighlight style={styles.button} onPress={() => props.resetGame()}>
+      <Text style={styles.buttonText}>Restart</Text>
+    </TouchableHighlight> */}
   </View>
 )
 
@@ -28,7 +28,7 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 40
+    fontSize: 20
   }
 })
 
