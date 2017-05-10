@@ -6,7 +6,9 @@ import {
   COMPLETE_BOARD,
   TOUCH_CORRECT_GLYPH,
   NEXT_CLUE,
-  TOUCH_INCORRECT_GLYPH
+  TOUCH_INCORRECT_GLYPH,
+  END_GAME,
+  SET_HIGHSCORE
 } from '../constants'
 
 import shuffle from 'lodash.shuffle'
@@ -28,12 +30,21 @@ const initialState = {
   correctAnswer: false,
   correctAnswers: '',
   score: 0,
+  highscore: 0,
   chinese: shuffle(grid),
-  timeOfLastInteraction: new Date()
+  timeOfLastInteraction: new Date(),
+  gameStart: new Date()
 }
 
 export default function dataReducer (state = initialState, action) {
   switch (action.type) {
+    case SET_HIGHSCORE:
+      return {
+        ...state,
+        highscore: action.score > state.highscore
+          ? action.score
+          : state.highscore
+      }
     case NEW_GAME:
       const newGrid = allchinese.substr(0, 16)
       const newChallenges = newGrid.split('').map(pinyin => {
@@ -41,8 +52,8 @@ export default function dataReducer (state = initialState, action) {
       })
       const randomClue =
         newChallenges[Math.floor(Math.random() * newChallenges.length)]
-        const elapsedTime = (new Date()-state.timeOfLastInteraction)/1000
-        console.log('elapsed',elapsedTime)
+
+      const elapsedTime = (new Date() - state.timeOfLastInteraction) / 1000
 
       return {
         ...state,
@@ -54,10 +65,10 @@ export default function dataReducer (state = initialState, action) {
         timeOfLastInteraction: new Date()
       }
     case TOUCH_CORRECT_GLYPH:
-     e = Math.max(1,new Date()-state.timeOfLastInteraction)/1000
+      e = Math.max(1, (new Date() - state.timeOfLastInteraction) / 1000)
       return {
         ...state,
-        score: state.score + Math.max(1,Math.floor(10/Math.floor(e))),
+        score: state.score + Math.max(1, Math.floor(10 / Math.floor(e))),
         timeOfLastInteraction: new Date()
       }
     case TOUCH_INCORRECT_GLYPH:

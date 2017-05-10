@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
-import { Text, AppState } from 'react-native'
+import { Text, AppState, Alert } from 'react-native'
 import FormatTime from 'minutes-seconds-milliseconds'
-
-export default class TimerView extends Component {
+import { connect } from 'react-redux'
+import { resetGame, setHighscore } from '../../ducks/actions'
+export class TimerView extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
       timeElapsed: 0,
       isPaused: false,
-      tickInterval: props.interval || 100
+      tickInterval: props.interval || 200
     }
   }
 
@@ -18,9 +19,38 @@ export default class TimerView extends Component {
     this.lastSavedTime = 0
 
     this.interval = setInterval(() => {
-      this.setState({
-        timeElapsed: new Date() - this.startTime + this.lastSavedTime
-      })
+      if (this.state.timeElapsed > 5000) {
+        this.setState({
+          isPaused: true,
+          timeElapsed: 0
+        })
+        this.startTime = new Date()
+        this.lastSavedTime = 0
+        this.props.setHighscore(this.props.appData.score)
+        Alert.alert(
+          'Thank you for playing',
+          `Score: ${this.props.appData.score}
+Highscore: ${this.props.appData.highscore}`,
+          [
+            {
+              text: 'Try again',
+              onPress: () => {
+                this.props.resetGame()
+                this.setState({
+                  timeElapsed: 0,
+                  isPaused: false
+                })
+              }
+            }
+          ],
+          { cancelable: false }
+        )
+      }
+      if (!this.state.isPaused) {
+        this.setState({
+          timeElapsed: new Date() - this.startTime + this.lastSavedTime
+        })
+      }
     }, this.state.tickInterval)
   }
 
@@ -34,12 +64,39 @@ export default class TimerView extends Component {
       timeElapsed: 0
     })
   }
+  format (time) {
+    const pad = (time, length) => {
+      while (time.length < length) {
+        time = '0' + time
+      }
+      return time
+    }
 
+    time = new Date(time)
+    let m = pad(time.getMinutes().toString(), 2)
+    let s = pad(time.getSeconds().toString(), 2)
+
+    return `${m}:${s}`
+  }
   render () {
     return (
       <Text {...this.props}>
-        {FormatTime(this.state.timeElapsed)}
+        {this.format(this.state.timeElapsed)}
       </Text>
     )
   }
 }
+function mapStateToProps (state) {
+  return {
+    appData: state.appData
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    resetGame: () => dispatch(resetGame()),
+    setHighscore: s => dispatch(setHighscore(s))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TimerView)

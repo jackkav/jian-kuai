@@ -4,13 +4,21 @@ import {
   TOUCH_CORRECT_GLYPH,
   TOUCH_INCORRECT_GLYPH,
   NEXT_CLUE,
-  NEW_GAME
+  NEW_GAME,
+  SET_HIGHSCORE
 } from './constants'
 
 export function selectGlyph (glyph) {
   return {
     type: SELECT_GLYPH,
     glyph
+  }
+}
+
+export function setHighscore (score) {
+  return {
+    type: SET_HIGHSCORE,
+    score
   }
 }
 

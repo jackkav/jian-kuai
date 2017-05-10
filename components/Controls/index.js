@@ -12,7 +12,7 @@ import { resetGame } from '../../ducks/actions'
 import TimerView from './TimerView'
 export const Controls = props => (
   <View>
-    <TimerView />
+    <TimerView style={styles.buttonText} />
     <TouchableHighlight style={styles.button} onPress={() => props.resetGame()}>
       <Text style={styles.buttonText}>New Game</Text>
     </TouchableHighlight>
