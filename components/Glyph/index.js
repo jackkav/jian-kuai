@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Animated,
-  Easing
-} from 'react-native'
+import { StyleSheet, Text, Animated } from 'react-native'
 import { LETTER_SIZE, BORDER_RADIUS, TILE_SIZE } from '../../constants'
 import { connect } from 'react-redux'
 import {

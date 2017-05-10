@@ -1,7 +1,6 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Board from '../Board'
-import Label from '../Label'
 import Challenge from '../Challenge'
 import Score from '../Score'
 import Controls from '../Controls'

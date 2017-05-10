@@ -1,15 +1,6 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Animated,
-  Easing,
-  TouchableHighlight
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
-import shuffle from 'lodash.shuffle'
 import { SIZE, CELL_SIZE, CELL_PADDING } from '../../constants'
 import Glyph from '../Glyph'
 

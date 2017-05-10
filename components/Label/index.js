@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  Animated,
-  Easing
-} from 'react-native'
+import { StyleSheet, Text, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 export const Label = props => (
   <TouchableHighlight style={styles.button} onPress={() => props.increment()}>

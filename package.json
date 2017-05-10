@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react-native": "^2.3.2",
     "jest-expo": "^0.4.0",
     "react-native-scripts": "0.0.29",
     "react-test-renderer": "16.0.0-alpha.6",
@@ -16,7 +20,8 @@
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
-    "postinstall": "remotedev-debugger --injectserver"
+    "postinstall": "remotedev-debugger --injectserver",
+    "lint": "eslint . --ext .js"
   },
   "jest": {
     "preset": "jest-expo"
@@ -24,7 +29,6 @@
   "dependencies": {
     "expo": "^16.0.0",
     "lodash.shuffle": "^4.2.0",
-    "minutes-seconds-milliseconds": "^1.0.3",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.43.4",
     "react-redux": "^5.0.4",

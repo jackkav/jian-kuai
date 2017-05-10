@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableHighlight,
-  Animated,
-  Easing
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
 import { resetGame } from '../../ducks/actions'
 import TimerView from './TimerView'

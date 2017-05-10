@@ -1,21 +1,14 @@
 import {
-  SELECT_GLYPH,
-  RESET_LEVEL,
   NEW_GAME,
-  CREATE_BOARD,
-  COMPLETE_BOARD,
   TOUCH_CORRECT_GLYPH,
   NEXT_CLUE,
   TOUCH_INCORRECT_GLYPH,
-  END_GAME,
   SET_HIGHSCORE,
   RESTORE_HIGHSCORE_SUCCESS
 } from '../constants'
-
-import { getHighscore } from '../highscore'
 import shuffle from 'lodash.shuffle'
 import dict from '../../challenges'
-const allchinese = Object.keys(challenges).join('')
+const allchinese = Object.keys(dict).join('')
 const grid = allchinese.substr(0, 16)
 const initialChallenges = grid.split('').map(pinyin => {
   return { pinyin, full: dict[pinyin] }
@@ -57,8 +50,6 @@ export default function dataReducer (state = initialState, action) {
       })
       const randomClue =
         newChallenges[Math.floor(Math.random() * newChallenges.length)]
-
-      const elapsedTime = (new Date() - state.timeOfLastInteraction) / 1000
 
       return {
         ...state,
