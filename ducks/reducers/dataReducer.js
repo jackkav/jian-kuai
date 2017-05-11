@@ -10,8 +10,8 @@ import shuffle from 'lodash.shuffle'
 import dict from '../../challenges'
 const allchinese = shuffle(Object.keys(dict)).join('')
 const grid = allchinese.substr(0, 16)
-const initialChallenges = grid.split('').map(pinyin => {
-  return { pinyin, full: dict[pinyin] }
+const initialChallenges = grid.split('').map(zi => {
+  return { zi, clue: dict[zi] }
 })
 const initialClue =
   initialChallenges[Math.floor(Math.random() * initialChallenges.length)]
@@ -19,8 +19,8 @@ const initialClue =
 const initialState = {
   error: false,
   label: '',
-  clue: initialClue.full,
-  findMe: initialClue.pinyin,
+  clue: initialClue.clue,
+  zi: initialClue.zi,
   challenges: initialChallenges,
   correctAnswer: false,
   correctAnswers: '',
@@ -45,8 +45,8 @@ export default function dataReducer (state = initialState, action) {
       }
     case NEW_GAME:
       const newGrid = allchinese.substr(0, 16)
-      const newChallenges = newGrid.split('').map(pinyin => {
-        return { pinyin, full: dict[pinyin] }
+      const newChallenges = newGrid.split('').map(zi => {
+        return { zi, clue: dict[zi] }
       })
       const randomClue =
         newChallenges[Math.floor(Math.random() * newChallenges.length)]
@@ -56,8 +56,8 @@ export default function dataReducer (state = initialState, action) {
         score: 0,
         chinese: shuffle(newGrid),
         challenges: newChallenges,
-        findMe: randomClue.pinyin,
-        clue: randomClue.full,
+        zi: randomClue.zi,
+        clue: randomClue.clue,
         timeOfLastInteraction: new Date()
       }
     case TOUCH_CORRECT_GLYPH:
@@ -70,19 +70,18 @@ export default function dataReducer (state = initialState, action) {
     case TOUCH_INCORRECT_GLYPH:
       return {
         ...state,
-        score: state.score - 10,
+        score: Math.max(0,state.score - 10),
         timeOfLastInteraction: new Date()
       }
     case NEXT_CLUE:
-    const current = state.pinyin
-    const filteredArray = state.challenges.filter(x=>x.pinyin!==current)
+    const current = state.zi
+    const filteredArray = state.challenges.filter(x=>x.zi!==current)
       const n =
         filteredArray[Math.floor(Math.random() * filteredArray.length)]
-
       return {
         ...state,
-        findMe: n.pinyin,
-        clue: n.full
+        zi: n.zi,
+        clue: n.clue
       }
     default:
       return state

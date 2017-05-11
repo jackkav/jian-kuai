@@ -45,7 +45,7 @@ class Challenge extends React.Component {
               opacity: this.anim
             }}
           >
-            {this.props.appData.findMe}
+            {this.props.appData.zi}
           </Animated.Text>
         </Text>
       </TouchableHighlight>

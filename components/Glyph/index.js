@@ -53,7 +53,7 @@ export class Glyph extends React.Component {
           }
         ]}
         onStartShouldSetResponder={() => {
-          if (this.props.appData.findMe === this.props.letter) {
+          if (this.props.appData.zi === this.props.letter) {
             this.props.correct()
             this.props.nextClue()
             this.clickCorrectTile(this.anim)
