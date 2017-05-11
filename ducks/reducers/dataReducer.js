@@ -8,7 +8,7 @@ import {
 } from '../constants'
 import shuffle from 'lodash.shuffle'
 import dict from '../../challenges'
-const allchinese = Object.keys(dict).join('')
+const allchinese = shuffle(Object.keys(dict)).join('')
 const grid = allchinese.substr(0, 16)
 const initialChallenges = grid.split('').map(pinyin => {
   return { pinyin, full: dict[pinyin] }
@@ -74,8 +74,10 @@ export default function dataReducer (state = initialState, action) {
         timeOfLastInteraction: new Date()
       }
     case NEXT_CLUE:
+    const current = state.pinyin
+    const filteredArray = state.challenges.filter(x=>x.pinyin!==current)
       const n =
-        state.challenges[Math.floor(Math.random() * state.challenges.length)]
+        filteredArray[Math.floor(Math.random() * filteredArray.length)]
 
       return {
         ...state,
