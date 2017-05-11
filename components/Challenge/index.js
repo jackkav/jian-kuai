@@ -8,11 +8,50 @@ import {
   Easing
 } from 'react-native'
 import { connect } from 'react-redux'
-export const Challenge = props => (
-  <TouchableHighlight style={styles.button}>
-    <Text style={styles.buttonText}>{props.appData.clue}</Text>
-  </TouchableHighlight>
-)
+class Challenge extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      fadeAnim: new Animated.Value(0) // opacity 0
+    }
+  }
+  componentDidMount () {
+    Animated.timing(this.anim, {
+      toValue: 1,
+      duration: 5000
+    }).start() // Don't forget start!
+  }
+  componentWillReceiveProps (nextProps) {
+    if (this.props.appData.clue !== nextProps.appData.clue) {
+      this.onRemoving(nextProps.onRemoving)
+    }
+  }
+  onRemoving (callback) {
+    this.anim = new Animated.Value(0)
+    Animated.timing(this.anim, {
+      toValue: 1,
+      duration: 5000
+    }).start(callback)
+  }
+  render () {
+    this.anim = this.anim || new Animated.Value(0)
+    return (
+      <TouchableHighlight style={styles.button}>
+        <Text style={styles.buttonText}>
+          {this.props.appData.clue}
+          {' '}
+          <Animated.Text
+            style={{
+              opacity: this.anim
+            }}
+          >
+            {this.props.appData.findMe}
+          </Animated.Text>
+        </Text>
+      </TouchableHighlight>
+    )
+  }
+}
 
 var styles = StyleSheet.create({
   button: {
@@ -23,7 +62,7 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 40
+    fontSize: 60
   }
 })
 
