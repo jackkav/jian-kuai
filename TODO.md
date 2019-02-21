@@ -2,10 +2,14 @@
 
 - [x] character grid
 - [x] new game
-- [ ] timer
-- [ ] end game event
-- [ ] local highscore
+- [x] timer
+- [x] end game event
+- [x] local highscore
 - [ ] multi character words
 - [ ] new game animation
-- [ ] correct animation
-- [ ] incorrect animation
+- [x] correct animation
+- [x] incorrect animation
+- [ ] upgrade to latest
+- [ ] refactor redux away
+- [ ] add new emojis
+- [ ] hooks y'all

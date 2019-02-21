@@ -4,7 +4,7 @@
     "description": "bodged for your pleasure",
     "slug": "jian-kuai",
     "privacy": "public",
-    "sdkVersion": "28.0.0",
+    "sdkVersion": "31.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
