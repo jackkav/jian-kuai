@@ -17,7 +17,7 @@ class Challenge extends React.Component {
   }
   componentDidMount () {
     Animated.timing(this.anim, {
-      toValue: 1,
+      toValue: 60,
       duration: 5000
     }).start() // Don't forget start!
   }
@@ -29,7 +29,7 @@ class Challenge extends React.Component {
   onRemoving (callback) {
     this.anim = new Animated.Value(0)
     Animated.timing(this.anim, {
-      toValue: 1,
+      toValue: 60,
       duration: 5000
     }).start(callback)
   }
@@ -42,7 +42,7 @@ class Challenge extends React.Component {
           {' '}
           <Animated.Text
             style={{
-              opacity: this.anim
+              fontSize: this.anim
             }}
           >
             {this.props.appData.zi}
