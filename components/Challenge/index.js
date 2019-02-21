@@ -2,10 +2,8 @@ import React from 'react'
 import {
   StyleSheet,
   Text,
-  View,
   TouchableHighlight,
-  Animated,
-  Easing
+  Animated
 } from 'react-native'
 import { connect } from 'react-redux'
 class Challenge extends React.Component {
@@ -18,7 +16,7 @@ class Challenge extends React.Component {
   componentDidMount () {
     Animated.timing(this.anim, {
       toValue: 60,
-      duration: 5000
+      duration: 15000
     }).start() // Don't forget start!
   }
   componentWillReceiveProps (nextProps) {
@@ -30,7 +28,7 @@ class Challenge extends React.Component {
     this.anim = new Animated.Value(0)
     Animated.timing(this.anim, {
       toValue: 60,
-      duration: 5000
+      duration: 15000
     }).start(callback)
   }
   render () {

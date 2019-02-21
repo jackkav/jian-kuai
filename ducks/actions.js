@@ -56,7 +56,7 @@ export function nextClue () {
   }
 }
 
-export function resetLevel (glyph) {
+export function resetLevel () {
   return {
     type: RESET_LEVEL
   }
