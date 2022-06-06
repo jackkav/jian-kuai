@@ -3,21 +3,9 @@ import { StyleSheet, View } from 'react-native'
 import Board from '../Board'
 import Challenge from '../Challenge'
 import Score from '../Score'
-import Controls from '../Controls'
-export default (App = () => (
-  <View style={styles.container}>
-    <View style={styles.topbar}>
-      <Controls />
-      <Score />
-    </View>
-    <View style={styles.playarea}>
-      <Challenge />
-      <Board />
-    </View>
-  </View>
-))
+import TimerView from '../Controls/TimerView'
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#644B62'
@@ -33,3 +21,20 @@ var styles = StyleSheet.create({
     flexDirection: 'column'
   }
 })
+
+export default () => (
+  <View style={styles.container}>
+    <View style={styles.topbar}>
+      <TimerView style={{
+        color: 'white',
+        fontSize: 20
+      }} />
+      <Score />
+    </View>
+    <View style={styles.playarea}>
+      <Challenge />
+      <Board />
+    </View>
+  </View>
+)
+

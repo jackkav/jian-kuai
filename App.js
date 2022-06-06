@@ -1,11 +1,13 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import configureStore from './ducks/configureStore'
-import App from './components/App'
-const store = configureStore()
+import store from './ducks/configureStore'
+import App2 from './components/App'
 
-export default (ReduxApp = () => (
-  <Provider store={store}>
-    <App />
-  </Provider>
-))
+export default () => {
+  return (
+    <Provider store={store}>
+      <App2 />
+    </Provider>
+  );
+}
+

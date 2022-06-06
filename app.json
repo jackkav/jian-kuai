@@ -12,10 +12,6 @@
       "icon": "https://s3.amazonaws.com/exp-us-standard/placeholder-push-icon-blue-circle.png",
       "color": "#000000"
     },
-    "loading": {
-      "icon": "https://s3.amazonaws.com/exp-brand-assets/ExponentEmptyManifest_192.png",
-      "hideExponentText": false
-    },
     "ios": {
       "supportsTablet": true
     },

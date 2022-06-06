@@ -1,74 +1,14 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, Alert } from 'react-native'
 import { connect } from 'react-redux'
-import { resetGame, setHighscore, restoreHighscore } from '../../ducks/actions'
+import { resetGame, setHighscore, restoreHighscore } from '../../ducks/configureStore'
 import { saveHighscore } from '../../ducks/highscore'
-export class TimerView extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      timeElapsed: 0,
-      isPaused: false,
-      tickInterval: props.interval || 200
-    }
-  }
-
-  componentDidMount () {
-    this.startTime = new Date()
-    this.lastSavedTime = 0
-    this.props.restoreHighscore()
-    this.interval = setInterval(() => {
-      if (this.state.timeElapsed > 30000) {
-        this.setState({
-          isPaused: true,
-          timeElapsed: 0
-        })
-        if (this.props.appData.score > this.props.appData.highscore) {
-          this.props.setHighscore(this.props.appData.score)
-          saveHighscore(this.props.appData.score)
-        }
-
-        Alert.alert(
-          'Thank you for playing',
-          `Score: ${this.props.appData.score}
-Highscore: ${this.props.appData.highscore}`,
-          [
-            {
-              text: 'Try again',
-              onPress: () => {
-                this.props.resetGame()
-                this.setState({
-                  timeElapsed: 0,
-                  isPaused: false
-                })
-                this.startTime = new Date()
-                this.lastSavedTime = 0
-              }
-            }
-          ],
-          { cancelable: false }
-        )
-      }
-      if (!this.state.isPaused) {
-        this.setState({
-          timeElapsed: new Date() - this.startTime + this.lastSavedTime
-        })
-      }
-    }, this.state.tickInterval)
-  }
-
-  componentWillUnmount () {
-    clearInterval(this.interval)
-
-    this.startTime = 0
-    this.lastSavedTime = 0
-
-    this.setState({
-      timeElapsed: 0
-    })
-  }
-  format (time) {
+const TimerView = props => {
+  const [timeElapsed, setTimeElapsed] = useState(0)
+  const [isPaused, setPaused] = useState(0)
+  const [startTime, setStartTime] = useState(Date.now())
+  const [lastSavedTime, setLastSavedTime] = useState(0)
+  const format = (time) => {
     const pad = (time, length) => {
       while (time.length < length) {
         time = '0' + time
@@ -82,21 +22,57 @@ Highscore: ${this.props.appData.highscore}`,
 
     return `${m}:${s}`
   }
-  render () {
-    return (
-      <Text {...this.props}>
-        {this.format(this.state.timeElapsed)}
-      </Text>
-    )
-  }
-}
-function mapStateToProps (state) {
-  return {
-    appData: state.appData
-  }
+  props.restoreHighscore()
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (timeElapsed > 30000) {
+        setPaused(true)
+        setTimeElapsed(0)
+
+        if (props.appData.score > props.appData.highscore) {
+          props.setHighscore(props.appData.score)
+          saveHighscore(props.appData.score)
+        }
+
+        Alert.alert(
+          'Thank you for playing',
+          `Score: ${props.appData.score}
+Highscore: ${props.appData.highscore}`,
+          [
+            {
+              text: 'Try again',
+              onPress: () => {
+                props.resetGame()
+                setTimeElapsed(0)
+                setPaused(false)
+
+                setStartTime(Date.now())
+                setLastSavedTime(0)
+              }
+            }
+          ],
+          { cancelable: false }
+        )
+      }
+      if (!isPaused) {
+        setTimeElapsed(Date.now() - startTime + lastSavedTime)
+      }
+
+
+    }, 200);
+    return () => {
+      clearInterval(timer)
+      // setStartTime(0)
+      // setLastSavedTime(0)
+      // setTimeElapsed(0)
+    }
+  });
+  return (<Text {...props}>
+    {format(timeElapsed)}
+  </Text>)
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     resetGame: () => dispatch(resetGame()),
     restoreHighscore: () => dispatch(restoreHighscore()),
@@ -104,4 +80,4 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimerView)
+export default connect(s=>s, mapDispatchToProps)(TimerView)

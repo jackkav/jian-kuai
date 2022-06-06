@@ -36,10 +36,4 @@ var styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps (state) {
-  return {
-    appData: state.appData
-  }
-}
-
-export default connect(mapStateToProps)(BoardView)
+export default connect(s=>s)(BoardView)
