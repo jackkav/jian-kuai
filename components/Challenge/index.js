@@ -5,8 +5,7 @@ import {
   TouchableHighlight,
   Animated
 } from 'react-native'
-import { connect } from 'react-redux'
-const Challenge = (props) => {
+const Challenge = ({clue,zi}) => {
   const enlarge = () => {
     Animated.timing(anim, {
       toValue: 60,
@@ -21,14 +20,14 @@ const Challenge = (props) => {
   return (
     <TouchableHighlight style={styles.button}>
       <Text style={styles.buttonText}>
-        {props.appData.clue}
+        {clue}
         {' '}
         <Animated.Text
           style={{
             fontSize: anim
           }}
         >
-          {props.appData.zi}
+          {zi}
         </Animated.Text>
       </Text>
     </TouchableHighlight>
@@ -48,4 +47,4 @@ var styles = StyleSheet.create({
   }
 })
 
-export default connect(s => s)(Challenge)
+export default Challenge

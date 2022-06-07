@@ -1,11 +1,10 @@
 import React from 'react'
 import {  Text, View } from 'react-native'
-import { connect } from 'react-redux'
-export const Score = props => (
+export const Score = ({score}) => (
   <View>
-    <Text style={{ color: 'white', fontSize: 20 }}>Score: {props.appData.score}</Text>
+    <Text style={{ color: 'white', fontSize: 20 }}>Score: {score}</Text>
   </View>
 )
 
 
-export default connect(s => s)(Score)
+export default Score
