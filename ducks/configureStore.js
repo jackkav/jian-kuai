@@ -1,6 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import shuffle from "lodash.shuffle";
 import dict from "../challenges";
+
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { saveHighscore } from './highscore';
+
 const allchinese = shuffle(Object.keys(dict)).join``;
 const grid = allchinese.substr(0, 16);
 const initialChallenges = grid.split``.map(zi => {
@@ -24,7 +28,6 @@ const initialState = {
   gameStart: Date.now()
 };
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 
 export const fetchHighscore = createAsyncThunk('appData/fetchHighscore', async () => {
@@ -45,6 +48,7 @@ const gameSlice = createSlice({
     setHighscore(state, action) {
       // ✅ This "mutating" code is okay inside of createSlice!
       state.highscore = +action.score
+      saveHighscore(+action.score)
     },
     restoreHighscore(state, action) {
       state.highscore = 0

@@ -1,36 +1,8 @@
 import React, { useRef } from 'react'
-import { StyleSheet, View, Animated, Text } from 'react-native'
-import { SIZE, CELL_SIZE, CELL_PADDING, LETTER_SIZE, BORDER_RADIUS, TILE_SIZE } from '../../constants'
+import { StyleSheet, Animated, Text } from 'react-native'
+import { LETTER_SIZE, BORDER_RADIUS, TILE_SIZE } from '../constants'
 
-const BoardView = ({ chinese, correct, nextClue, incorrect }) => {
-  return (
-    <View style={{
-      width: CELL_SIZE * SIZE,
-      height: CELL_SIZE * SIZE,
-      backgroundColor: 'transparent'
-    }}>
-      {renderTiles({ chinese, correct, nextClue, incorrect })}
-    </View>
-  )
-}
-const renderTiles = ({ chinese, correct, nextClue, incorrect }) => {
-  var result = []
-
-  for (var row = 0; row < SIZE; row++) {
-    for (var col = 0; col < SIZE; col++) {
-      var key = row * SIZE + col
-      var letter = chinese[key]
-      var position = {
-        left: col * CELL_SIZE + CELL_PADDING,
-        top: row * CELL_SIZE + CELL_PADDING
-      }
-      result.push(<Glyph key={key} position={position} letter={letter} correct={correct} nextClue={nextClue} incorrect={incorrect} />)
-    }
-  }
-  return result
-}
-
-export const Glyph = ({ position, letter, correct, nextClue, incorrect }) => {
+export const Glyph = ({ position, letter, correct, zi, nextClue, incorrect }) => {
   const anim = useRef(new Animated.Value(0)).current;
   const coloranim = useRef(new Animated.Value(0)).current
   const incorrectColor = 'rgba(255, 0, 0, 1)'
@@ -72,7 +44,7 @@ export const Glyph = ({ position, letter, correct, nextClue, incorrect }) => {
         }
       ]}
       onStartShouldSetResponder={() => {
-        if (appData.zi === letter) {
+        if (zi === letter) {
           correct()
           nextClue()
           Animated.spring(anim, {
@@ -104,7 +76,6 @@ export const Glyph = ({ position, letter, correct, nextClue, incorrect }) => {
   )
 }
 
-
 var styles = StyleSheet.create({
   tile: {
     position: 'absolute',
@@ -121,4 +92,3 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent'
   }
 })
-export default BoardView

@@ -1,8 +1,17 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import Board from '../Board'
-import Challenge from '../Challenge'
-import TimerView from '../Controls/TimerView'
+import { Glyph } from './Glyph'
+import Challenge from './Challenge'
+import Timer from './Timer'
+import { connect } from 'react-redux'
+import {
+  resetGame, setHighscore, restoreHighscore,
+  correct,
+  incorrect,
+  nextClue
+} from '../ducks/configureStore'
+import { SIZE, CELL_SIZE, CELL_PADDING } from '../constants'
+
 
 let styles = StyleSheet.create({
   container: {
@@ -20,13 +29,7 @@ let styles = StyleSheet.create({
     flexDirection: 'column'
   }
 })
-import { connect } from 'react-redux'
-import {
-  resetGame, setHighscore, restoreHighscore,
-  correct,
-  incorrect,
-  nextClue
-} from '../../ducks/configureStore'
+
 function mapDispatchToProps(dispatch) {
   return {
     resetGame: () => dispatch(resetGame()),
@@ -38,10 +41,26 @@ function mapDispatchToProps(dispatch) {
     incorrect: () => dispatch(incorrect())
   }
 }
+const getPositions = ({ chinese }) => {
+  var result = []
+
+  for (var row = 0; row < SIZE; row++) {
+    for (var col = 0; col < SIZE; col++) {
+      var key = row * SIZE + col
+      var letter = chinese[key]
+      var position = {
+        left: col * CELL_SIZE + CELL_PADDING,
+        top: row * CELL_SIZE + CELL_PADDING
+      }
+      result.push({ position, letter, key })
+    }
+  }
+  return result
+}
 export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highscore, clue, zi, chinese }, restoreHighscore, setHighscore, correct, incorrect, nextClue }) => (
   <View style={styles.container}>
     <View style={styles.topbar}>
-      <TimerView
+      <Timer
         score={score}
         highscore={highscore}
         restoreHighscore={restoreHighscore}
@@ -50,7 +69,21 @@ export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highsco
     </View>
     <View style={styles.playarea}>
       <Challenge clue={clue} zi={zi} />
-      <Board chinese={chinese} correct={correct} nextClue={nextClue} incorrect={incorrect} />
+      <View style={{
+        width: CELL_SIZE * SIZE,
+        height: CELL_SIZE * SIZE,
+        backgroundColor: 'transparent'
+      }}>
+        {getPositions({ chinese }).map(({ position, letter, key }) =>
+          <Glyph
+            key={key}
+            zi={zi}
+            letter={letter}
+            position={position}
+            correct={correct}
+            nextClue={nextClue}
+            incorrect={incorrect} />)}
+      </View>
     </View>
   </View>
 ))
