@@ -50,9 +50,6 @@ const gameSlice = createSlice({
       state.highscore = +action.score
       saveHighscore(+action.score)
     },
-    restoreHighscore(state, action) {
-      state.highscore = 0
-    },
     resetGame(state) {
       const newGrid = allchinese.substr(0, 16);
       const newChallenges = newGrid.split``.map(zi => {
@@ -92,7 +89,7 @@ const gameSlice = createSlice({
     },
   }
 })
-export const { restoreHighscore, setHighscore, resetGame, correct, incorrect } = gameSlice.actions
+export const { setHighscore, resetGame, correct, incorrect } = gameSlice.actions
 const store = configureStore({
   reducer: {
     appData: gameSlice.reducer,

@@ -5,7 +5,8 @@ import Challenge from './Challenge'
 import Timer from './Timer'
 import { connect } from 'react-redux'
 import {
-  resetGame, setHighscore, restoreHighscore,
+  resetGame,
+  setHighscore,
   correct,
   incorrect
 } from '../ducks/configureStore'
@@ -32,9 +33,7 @@ let styles = StyleSheet.create({
 function mapDispatchToProps(dispatch) {
   return {
     resetGame: () => dispatch(resetGame()),
-    restoreHighscore: () => dispatch(restoreHighscore()),
     setHighscore: s => dispatch(setHighscore(s)),
-    resetLevel: () => dispatch(resetLevel()),
     correct: () => dispatch(correct()),
     incorrect: () => dispatch(incorrect())
   }

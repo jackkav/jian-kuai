@@ -12,10 +12,8 @@ const alertPolyfill = (title, description, options, extra) => {
 }
 
 const alert = Platform.OS === 'web' ? alertPolyfill : Alert.alert
-export const gameOver = ({score,highscore,setHighscore,resetGame}) => {
-  if (score > highscore) {
-    setHighscore(score)
-  }
+export const gameOver = ({ score, highscore, onComplete }) => {
+
   alert(
     'Thank you for playing',
     `Score: ${score}
@@ -24,7 +22,7 @@ Highscore: ${highscore}`,
       {
         text: 'Try again',
         onPress: () => {
-          resetGame()
+          onComplete()
         }
       }
     ],
