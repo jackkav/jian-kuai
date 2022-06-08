@@ -57,13 +57,13 @@ const getPositions = ({ chinese }) => {
   }
   return result
 }
-export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highscore, clue, zi, chinese }, restoreHighscore, setHighscore, correct, incorrect, nextClue }) => (
+export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highscore, clue, zi, chinese }, resetGame, setHighscore, correct, incorrect, nextClue }) => (
   <View style={styles.container}>
     <View style={styles.topbar}>
       <Timer
         score={score}
         highscore={highscore}
-        restoreHighscore={restoreHighscore}
+        resetGame={resetGame}
         setHighscore={setHighscore} />
       <Text style={{ color: 'white', fontSize: 20 }}>Score: {score}</Text>
     </View>

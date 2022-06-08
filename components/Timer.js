@@ -1,47 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import { Text, Alert } from 'react-native'
-const Timer = ({ score, highscore, restoreHighscore, setHighscore, resetGame }) => {
-  const [isPaused, setPaused] = useState(0)
-  const [seconds, setSeconds] = useState(0)
+import React, { useEffect, useRef, useState } from 'react'
+import { Text, Animated } from 'react-native'
+import {gameOver} from '../ducks/events'
 
-  restoreHighscore()
+const useInterval = (callback, delay) => {
+  const savedCallback = useRef(() => { });
+
   useEffect(() => {
-    let isMounted = true
-
-    const timer = setInterval(() => {
-      if (!isPaused) {
-        isMounted && setSeconds(seconds + 1)
-      }
-      if (seconds >= 30) {
-        isMounted && setPaused(true)
-
-        if (score > highscore) {
-          isMounted && setHighscore(score)
-        }
-
-        Alert.alert(
-          'Thank you for playing',
-          `Score: ${score}
-Highscore: ${highscore}`,
-          [
-            {
-              text: 'Try again',
-              onPress: () => {
-                resetGame()
-                isMounted && setPaused(false)
-              }
-            }
-          ],
-          { cancelable: false }
-        )
-      }
-    }, 1000);
-    return () => {
-      clearInterval(timer)
-      isMounted = false
-    }
+    savedCallback.current = callback;
   });
-  return (<Text style={{ color: 'white', fontSize: 20 }}>00:{('' + seconds).padStart(2, '0')}</Text>)
+
+  useEffect(() => {
+    if (delay !== null) {
+      const interval = setInterval(() => savedCallback.current(), delay || 0);
+      return () => clearInterval(interval);
+    }
+
+    return undefined;
+  }, [delay]);
+};
+
+const Timer = ({ score, highscore, setHighscore, resetGame }) => {
+  const [count, setCount] = useState(10);
+  const [delay, setDelay] = useState(1000);
+  const [isRunning, setIsRunning] = useState(true);
+  useInterval(
+    () => {
+      if (count > 1) {
+        return setCount(count - 1);
+      }
+      setIsRunning(false)
+      gameOver({ score, highscore, setHighscore, resetGame })
+      setCount(10)
+    },
+    isRunning ? delay : null
+  );
+
+  return (<Text style={{ color: 'white', fontSize: 20 }}>00:{("" + count).padStart(2, '0')}</Text>)
 }
 
 export default Timer

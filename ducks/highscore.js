@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export const saveHighscore = async score => {
   try {
-    if(isNaN(value)) return
+    if(isNaN(score)) return
     await AsyncStorage.setItem('jian-kuai:highscore', '' + score)
   } catch (error) {
     console.log(error)
