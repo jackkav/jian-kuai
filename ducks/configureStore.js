@@ -72,10 +72,15 @@ const gameSlice = createSlice({
     },
     correct(state) {
       let e = Math.max(1, (Date.now() - state.timeOfLastInteraction) / 1000);
+      const current = state.zi;
+      const filteredArray = state.challenges.filter(x => x.zi !== current);
+      const n = filteredArray[Math.floor(Math.random() * filteredArray.length)];
       return {
         ...state,
         score: state.score + Math.max(1, Math.floor(10 / Math.floor(e))),
-        timeOfLastInteraction: Date.now()
+        timeOfLastInteraction: Date.now(),
+        zi: n.zi,
+        clue: n.clue
       };
     },
     incorrect(state) {
@@ -85,19 +90,9 @@ const gameSlice = createSlice({
         timeOfLastInteraction: Date.now()
       };
     },
-    nextClue(state) {
-      const current = state.zi;
-      const filteredArray = state.challenges.filter(x => x.zi !== current);
-      const n = filteredArray[Math.floor(Math.random() * filteredArray.length)];
-      return {
-        ...state,
-        zi: n.zi,
-        clue: n.clue
-      };
-    }
   }
 })
-export const { restoreHighscore, setHighscore, resetGame, correct, nextClue, incorrect } = gameSlice.actions
+export const { restoreHighscore, setHighscore, resetGame, correct, incorrect } = gameSlice.actions
 const store = configureStore({
   reducer: {
     appData: gameSlice.reducer,

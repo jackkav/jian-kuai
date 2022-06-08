@@ -7,8 +7,7 @@ import { connect } from 'react-redux'
 import {
   resetGame, setHighscore, restoreHighscore,
   correct,
-  incorrect,
-  nextClue
+  incorrect
 } from '../ducks/configureStore'
 import { SIZE, CELL_SIZE, CELL_PADDING } from '../constants'
 
@@ -37,7 +36,6 @@ function mapDispatchToProps(dispatch) {
     setHighscore: s => dispatch(setHighscore(s)),
     resetLevel: () => dispatch(resetLevel()),
     correct: () => dispatch(correct()),
-    nextClue: () => dispatch(nextClue()),
     incorrect: () => dispatch(incorrect())
   }
 }
@@ -57,7 +55,7 @@ const getPositions = ({ chinese }) => {
   }
   return result
 }
-export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highscore, clue, zi, chinese }, resetGame, setHighscore, correct, incorrect, nextClue }) => (
+export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highscore, clue, zi, chinese }, resetGame, setHighscore, correct, incorrect }) => (
   <View style={styles.container}>
     <View style={styles.topbar}>
       <Timer
@@ -81,7 +79,6 @@ export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highsco
             letter={letter}
             position={position}
             correct={correct}
-            nextClue={nextClue}
             incorrect={incorrect} />)}
       </View>
     </View>
