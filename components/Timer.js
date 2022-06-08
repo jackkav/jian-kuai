@@ -31,7 +31,9 @@ const Timer = ({ score, highscore, setHighscore, resetGame }) => {
         setHighscore(score)
       }
       gameOver({
-        score, highscore, setHighscore, onComplete: () => {
+        score,
+        highscore: score > highscore ? score : highscore,
+        onComplete: () => {
           resetGame()
           setCount(10)
           setIsRunning(true)
