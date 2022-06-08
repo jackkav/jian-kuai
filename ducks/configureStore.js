@@ -4,51 +4,35 @@ import dict from "../challenges";
 
 import { createSlice } from '@reduxjs/toolkit'
 
-const allchinese = shuffle(Object.keys(dict)).join``;
-const grid = allchinese.slice(0, 16);
-const initialChallenges = grid.split``.map(zi => {
-  return { zi, clue: dict[zi] };
-});
-const randomItemInArray = Math.floor(Math.random() * initialChallenges.length)
-const initialClue = initialChallenges[randomItemInArray];
-
-const initialState = {
-  error: false,
-  label: "",
-  clue: initialClue.clue,
-  zi: initialClue.zi,
-  challenges: initialChallenges,
-  correctAnswer: false,
-  correctAnswers: "",
-  score: 0,
-  highscore: 0,
-  chinese: shuffle(grid),
-  timeOfLastInteraction: Date.now(),
-  gameStart: Date.now()
-};
-
+const newGame = () =>{
+  const sixteenRandomCharacters = shuffle(Object.keys(dict)).join``.slice(0, 16);
+  const challenges = sixteenRandomCharacters.split``.map(zi => ({ zi, clue: dict[zi] }));
+  const randomItemInArray = Math.floor(Math.random() * challenges.length)
+  return {
+    score: 0,
+    chinese:sixteenRandomCharacters,
+    challenges,
+    zi: challenges[randomItemInArray].zi,
+    clue: challenges[randomItemInArray].clue,
+    timeOfLastInteraction: Date.now()
+  };
+}
 const gameSlice = createSlice({
   name: 'appData',
-  initialState,
+  initialState: {
+    ...newGame(),
+    timeOfLastInteraction: Date.now(),
+    highscore:0
+  },
   reducers: {
     setHighscore(state, action) {
       // ✅ This "mutating" code is okay inside of createSlice!
       state.highscore = action.payload
     },
     resetGame(state) {
-      const newGrid = allchinese.substr(0, 16);
-      const newChallenges = newGrid.split``.map(zi => {
-        return { zi, clue: dict[zi] };
-      });
-      const randomItemInArray = Math.floor(Math.random() * newChallenges.length)
-      const randomClue = newChallenges[randomItemInArray];
       return {
         ...state,
-        score: 0,
-        chinese: shuffle(newGrid),
-        challenges: newChallenges,
-        zi: randomClue.zi,
-        clue: randomClue.clue,
+        ...newGame(),
         timeOfLastInteraction: Date.now()
       };
     },
