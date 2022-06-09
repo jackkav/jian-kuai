@@ -4,20 +4,15 @@ import shuffle from "lodash.shuffle";
 import dict from "../challenges";
 
 const newGame = () => {
-  const sixteenRandomCharacters = shuffle(Object.keys(dict)).join``.slice(
-    0,
-    16
-  );
-  const challenges = sixteenRandomCharacters.split``.map(
-    (expectedCharacter) => ({
-      expectedCharacter,
-      expectedEmoji: dict[expectedCharacter],
-    })
-  );
+  const shuffledCharacters = shuffle(Object.keys(dict)).join``.slice(0, 16);
+  const challenges = shuffledCharacters.split``.map((expectedCharacter) => ({
+    expectedCharacter,
+    expectedEmoji: dict[expectedCharacter],
+  }));
   const randomItemInArray = Math.floor(Math.random() * challenges.length);
   return {
     score: 0,
-    chinese: sixteenRandomCharacters,
+    shuffledCharacters,
     challenges,
     ...challenges[randomItemInArray],
     timeOfLastInteraction: Date.now(),

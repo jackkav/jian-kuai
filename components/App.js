@@ -31,29 +31,19 @@ function mapDispatchToProps(dispatch) {
     onTouch: (s) => dispatch(onTouch(s)),
   };
 }
-const getPositions = ({ chinese }) => {
-  const result = [];
-
-  for (let row = 0; row < SIZE; row++) {
-    for (let col = 0; col < SIZE; col++) {
-      const key = row * SIZE + col;
-      const character = chinese[key];
-      const position = {
-        left: col * CELL_SIZE + CELL_PADDING,
-        top: row * CELL_SIZE + CELL_PADDING,
-      };
-      result.push({ position, character, key });
-    }
-  }
-  return result;
-};
 
 export default connect(
   (s) => s,
   mapDispatchToProps
 )(
   ({
-    appData: { score, highscore, expectedEmoji, expectedCharacter, chinese },
+    appData: {
+      score,
+      highscore,
+      expectedEmoji,
+      expectedCharacter,
+      shuffledCharacters,
+    },
     resetGame,
     onTouch,
   }) => (
@@ -74,15 +64,20 @@ export default connect(
             backgroundColor: "transparent",
           }}
         >
-          {getPositions({ chinese }).map(({ position, character, key }) => (
-            <Glyph
-              key={key}
-              expectedCharacter={expectedCharacter}
-              character={character}
-              position={position}
-              onTouch={onTouch}
-            />
-          ))}
+          {[0, 1, 2, 3].map((row) =>
+            [0, 1, 2, 3].map((column) => (
+              <Glyph
+                key={row * SIZE + column}
+                expectedCharacter={expectedCharacter}
+                character={shuffledCharacters[row * SIZE + column]}
+                position={{
+                  left: column * CELL_SIZE + CELL_PADDING,
+                  top: row * CELL_SIZE + CELL_PADDING,
+                }}
+                onTouch={onTouch}
+              />
+            ))
+          )}
         </View>
       </View>
     </View>
