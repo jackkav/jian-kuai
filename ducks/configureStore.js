@@ -4,13 +4,13 @@ import dict from "../challenges";
 
 import { createSlice } from '@reduxjs/toolkit'
 
-const newGame = () =>{
+const newGame = () => {
   const sixteenRandomCharacters = shuffle(Object.keys(dict)).join``.slice(0, 16);
   const challenges = sixteenRandomCharacters.split``.map(zi => ({ zi, clue: dict[zi] }));
   const randomItemInArray = Math.floor(Math.random() * challenges.length)
   return {
     score: 0,
-    chinese:sixteenRandomCharacters,
+    chinese: sixteenRandomCharacters,
     challenges,
     zi: challenges[randomItemInArray].zi,
     clue: challenges[randomItemInArray].clue,
@@ -22,44 +22,37 @@ const gameSlice = createSlice({
   initialState: {
     ...newGame(),
     timeOfLastInteraction: Date.now(),
-    highscore:0
+    highscore: 0
   },
   reducers: {
-    setHighscore(state, action) {
-      // ✅ This "mutating" code is okay inside of createSlice!
-      state.highscore = action.payload
-    },
     resetGame(state) {
+      const highscore = state.score > state.highscore ? state.score : state.highscore
       return {
         ...state,
         ...newGame(),
+        highscore,
         timeOfLastInteraction: Date.now()
       };
     },
-    correct(state) {
-      const timeSinceLastInteraction = Math.max(1, (Date.now() - state.timeOfLastInteraction) / 1000);
-      const correctAnswer = state.zi;
-      const newChallenges = state.challenges.filter(x => x.zi !== correctAnswer);
+    onTouch(state, action) {
+      state.timeOfLastInteraction = Date.now()
+
+      if (action.payload !== state.zi) {
+        state.score = Math.max(0, state.score - 5);
+        return
+      }
+
+      const newChallenges = state.challenges.filter(x => x.zi !== state.zi);
       const randomItemInArray = Math.floor(Math.random() * newChallenges.length)
-      const randomNextClue = newChallenges[randomItemInArray];
-      return {
-        ...state,
-        score: state.score + Math.max(1, Math.floor(10 / Math.floor(timeSinceLastInteraction))),
-        timeOfLastInteraction: Date.now(),
-        zi: randomNextClue.zi,
-        clue: randomNextClue.clue
-      };
-    },
-    incorrect(state) {
-      return {
-        ...state,
-        score: Math.max(0, state.score - 5),
-        timeOfLastInteraction: Date.now()
-      };
+      state.zi=newChallenges[randomItemInArray].zi
+      state.clue=newChallenges[randomItemInArray].clue
+      // calculate score based on time to answer
+      const timeSinceLastInteraction = Math.max(1, (Date.now() - state.timeOfLastInteraction) / 1000);
+      state.score = state.score + Math.max(1, Math.floor(10 / Math.floor(timeSinceLastInteraction)));
     },
   }
 })
-export const { setHighscore, resetGame, correct, incorrect } = gameSlice.actions
+export const { resetGame, onTouch } = gameSlice.actions
 const store = configureStore({
   reducer: {
     appData: gameSlice.reducer,

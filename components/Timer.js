@@ -19,7 +19,7 @@ const useInterval = (callback, delay) => {
   }, [delay]);
 };
 
-const Timer = ({ score, highscore, setHighscore, resetGame }) => {
+const Timer = ({ score, highscore, resetGame }) => {
   const [count, setCount] = useState(10);
   const [isRunning, setIsRunning] = useState(true);
   useInterval(
@@ -27,14 +27,12 @@ const Timer = ({ score, highscore, setHighscore, resetGame }) => {
       if (count > 1) {
         return setCount(count - 1);
       }
-      if (score > highscore) {
-        setHighscore(score)
-      }
       gameOver({
         score,
         highscore: score > highscore ? score : highscore,
         onComplete: () => {
           resetGame()
+
           setCount(10)
           setIsRunning(true)
         }

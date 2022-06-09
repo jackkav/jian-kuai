@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { StyleSheet, Animated, Text } from 'react-native'
 import { LETTER_SIZE, BORDER_RADIUS, TILE_SIZE } from '../constants'
 
-export const Glyph = ({ position, letter, correct, zi, incorrect }) => {
+export const Glyph = ({ position, letter, onTouch, zi }) => {
   const anim = useRef(new Animated.Value(0)).current;
   const coloranim = useRef(new Animated.Value(0)).current
   const incorrectColor = 'rgba(255, 0, 0, 1)'
@@ -44,8 +44,8 @@ export const Glyph = ({ position, letter, correct, zi, incorrect }) => {
         }
       ]}
       onStartShouldSetResponder={() => {
+        onTouch(letter)
         if (zi === letter) {
-          correct()
           Animated.spring(anim, {
             toValue: 0, // Returns to the start
             velocity: 3, // Velocity makes it move
@@ -54,7 +54,6 @@ export const Glyph = ({ position, letter, correct, zi, incorrect }) => {
             useNativeDriver: false
           }).start()
         } else {
-          incorrect()
           Animated.sequence([
             Animated.timing(coloranim, {
               toValue: 300,
@@ -66,7 +65,6 @@ export const Glyph = ({ position, letter, correct, zi, incorrect }) => {
             })
           ]).start()
         }
-
         return true
       }}
     >

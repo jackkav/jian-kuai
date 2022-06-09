@@ -6,9 +6,7 @@ import Timer from './Timer'
 import { connect } from 'react-redux'
 import {
   resetGame,
-  setHighscore,
-  correct,
-  incorrect
+  onTouch
 } from '../ducks/configureStore'
 import { SIZE, CELL_SIZE, CELL_PADDING } from '../constants'
 
@@ -33,9 +31,7 @@ let styles = StyleSheet.create({
 function mapDispatchToProps(dispatch) {
   return {
     resetGame: () => dispatch(resetGame()),
-    setHighscore: s => dispatch(setHighscore(s)),
-    correct: () => dispatch(correct()),
-    incorrect: () => dispatch(incorrect())
+    onTouch: s => dispatch(onTouch(s)),
   }
 }
 const getPositions = ({ chinese }) => {
@@ -54,14 +50,15 @@ const getPositions = ({ chinese }) => {
   }
   return result
 }
-export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highscore, clue, zi, chinese }, resetGame, setHighscore, correct, incorrect }) => (
+
+export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highscore, clue, zi, chinese }, resetGame, onTouch }) => (
   <View style={styles.container}>
     <View style={styles.topbar}>
       <Timer
         score={score}
         highscore={highscore}
         resetGame={resetGame}
-        setHighscore={setHighscore} />
+         />
       <Text style={{ color: 'white', fontSize: 20 }}>Score: {score}</Text>
     </View>
     <View style={styles.playarea}>
@@ -77,8 +74,7 @@ export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highsco
             zi={zi}
             letter={letter}
             position={position}
-            correct={correct}
-            incorrect={incorrect} />)}
+            onTouch={onTouch} />)}
       </View>
     </View>
   </View>
