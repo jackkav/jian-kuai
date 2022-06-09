@@ -1,7 +1,8 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import store from './ducks/configureStore'
-import App2 from './components/App'
+import React from "react";
+import { Provider } from "react-redux";
+
+import App2 from "./components/App";
+import store from "./ducks/configureStore";
 
 export default () => {
   return (
@@ -9,5 +10,4 @@ export default () => {
       <App2 />
     </Provider>
   );
-}
-
+};

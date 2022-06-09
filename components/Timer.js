@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Text, Animated } from 'react-native'
-import { gameOver } from '../ducks/events'
+import React, { useEffect, useRef, useState } from "react";
+import { Text } from "react-native";
+
+import { gameOver } from "../ducks/events";
 
 const useInterval = (callback, delay) => {
-  const savedCallback = useRef(() => { });
+  const savedCallback = useRef(() => {});
 
   useEffect(() => {
     savedCallback.current = callback;
@@ -30,18 +31,22 @@ const Timer = ({ score, highscore, resetGame }) => {
       gameOver({
         score,
         highscore: score > highscore ? score : highscore,
-        onComplete: () => {
-          resetGame()
+        onPress: () => {
+          resetGame();
 
-          setCount(10)
-          setIsRunning(true)
-        }
-      })
+          setCount(10);
+          setIsRunning(true);
+        },
+      });
     },
     isRunning ? 1000 : null
   );
 
-  return (<Text style={{ color: 'white', fontSize: 20 }}>00:{("" + count).padStart(2, '0')}</Text>)
-}
+  return (
+    <Text style={{ color: "white", fontSize: 20 }}>
+      00:{("" + count).padStart(2, "0")}
+    </Text>
+  );
+};
 
-export default Timer
+export default Timer;
