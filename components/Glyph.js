@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { StyleSheet, Animated, Text } from 'react-native'
 import { LETTER_SIZE, BORDER_RADIUS, TILE_SIZE } from '../constants'
 
-export const Glyph = ({ position, letter, onTouch, zi }) => {
+export const Glyph = ({ position, character, onTouch, expectedCharacter }) => {
   const anim = useRef(new Animated.Value(0)).current;
   const coloranim = useRef(new Animated.Value(0)).current
   const incorrectColor = 'rgba(255, 0, 0, 1)'
@@ -44,8 +44,8 @@ export const Glyph = ({ position, letter, onTouch, zi }) => {
         }
       ]}
       onStartShouldSetResponder={() => {
-        onTouch(letter)
-        if (zi === letter) {
+        onTouch(character)
+        if (expectedCharacter === character) {
           Animated.spring(anim, {
             toValue: 0, // Returns to the start
             velocity: 3, // Velocity makes it move
@@ -68,7 +68,7 @@ export const Glyph = ({ position, letter, onTouch, zi }) => {
         return true
       }}
     >
-      <Text style={styles.letter}>{letter}</Text>
+      <Text style={styles.letter}>{character}</Text>
     </Animated.View>
   )
 }

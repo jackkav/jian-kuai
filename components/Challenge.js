@@ -5,7 +5,7 @@ import {
   TouchableHighlight,
   Animated
 } from 'react-native'
-const Challenge = ({ clue, zi }) => {
+const Challenge = ({ expectedEmoji, expectedCharacter }) => {
   const enlarge = () => {
     Animated.timing(anim, {
       toValue: 60,
@@ -17,18 +17,18 @@ const Challenge = ({ clue, zi }) => {
   useEffect(() => {
     enlarge();
     return () => anim.setValue(0)
-  }, [clue]);
+  }, [expectedEmoji]);
   return (
     <TouchableHighlight style={styles.button}>
       <Text style={styles.buttonText}>
-        {clue}
+        {expectedEmoji}
         {' '}
         <Animated.Text
           style={{
             fontSize: anim
           }}
         >
-          {zi}
+          {expectedCharacter}
         </Animated.Text>
       </Text>
     </TouchableHighlight>

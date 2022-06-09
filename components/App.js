@@ -40,18 +40,18 @@ const getPositions = ({ chinese }) => {
   for (var row = 0; row < SIZE; row++) {
     for (var col = 0; col < SIZE; col++) {
       var key = row * SIZE + col
-      var letter = chinese[key]
+      var character = chinese[key]
       var position = {
         left: col * CELL_SIZE + CELL_PADDING,
         top: row * CELL_SIZE + CELL_PADDING
       }
-      result.push({ position, letter, key })
+      result.push({ position, character, key })
     }
   }
   return result
 }
 
-export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highscore, clue, zi, chinese }, resetGame, onTouch }) => (
+export default connect(s => s, mapDispatchToProps)(({ appData: { score, highscore, expectedEmoji, expectedCharacter, chinese }, resetGame, onTouch }) => (
   <View style={styles.container}>
     <View style={styles.topbar}>
       <Timer
@@ -62,19 +62,20 @@ export default connect(s => s, mapDispatchToProps,)(({ appData: { score, highsco
       <Text style={{ color: 'white', fontSize: 20 }}>Score: {score}</Text>
     </View>
     <View style={styles.playarea}>
-      <Challenge clue={clue} zi={zi} />
+      <Challenge expectedEmoji={expectedEmoji} expectedCharacter={expectedCharacter} />
       <View style={{
         width: CELL_SIZE * SIZE,
         height: CELL_SIZE * SIZE,
         backgroundColor: 'transparent'
       }}>
-        {getPositions({ chinese }).map(({ position, letter, key }) =>
+        {getPositions({ chinese }).map(({ position, character, key }) =>
           <Glyph
             key={key}
-            zi={zi}
-            letter={letter}
+            expectedCharacter={expectedCharacter}
+            character={character}
             position={position}
-            onTouch={onTouch} />)}
+            onTouch={onTouch}
+            />)}
       </View>
     </View>
   </View>

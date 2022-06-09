@@ -6,14 +6,13 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const newGame = () => {
   const sixteenRandomCharacters = shuffle(Object.keys(dict)).join``.slice(0, 16);
-  const challenges = sixteenRandomCharacters.split``.map(zi => ({ zi, clue: dict[zi] }));
+  const challenges = sixteenRandomCharacters.split``.map(expectedCharacter => ({ expectedCharacter, expectedEmoji: dict[expectedCharacter] }));
   const randomItemInArray = Math.floor(Math.random() * challenges.length)
   return {
     score: 0,
     chinese: sixteenRandomCharacters,
     challenges,
-    zi: challenges[randomItemInArray].zi,
-    clue: challenges[randomItemInArray].clue,
+    ...challenges[randomItemInArray],
     timeOfLastInteraction: Date.now()
   };
 }
@@ -37,15 +36,15 @@ const gameSlice = createSlice({
     onTouch(state, action) {
       state.timeOfLastInteraction = Date.now()
 
-      if (action.payload !== state.zi) {
+      if (action.payload !== state.expectedCharacter) {
         state.score = Math.max(0, state.score - 5);
         return
       }
 
-      const newChallenges = state.challenges.filter(x => x.zi !== state.zi);
+      const newChallenges = state.challenges.filter(x => x.expectedCharacter !== state.expectedCharacter);
       const randomItemInArray = Math.floor(Math.random() * newChallenges.length)
-      state.zi=newChallenges[randomItemInArray].zi
-      state.clue=newChallenges[randomItemInArray].clue
+      state.expectedCharacter=newChallenges[randomItemInArray].expectedCharacter
+      state.expectedEmoji=newChallenges[randomItemInArray].expectedEmoji
       // calculate score based on time to answer
       const timeSinceLastInteraction = Math.max(1, (Date.now() - state.timeOfLastInteraction) / 1000);
       state.score = state.score + Math.max(1, Math.floor(10 / Math.floor(timeSinceLastInteraction)));
